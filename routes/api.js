@@ -6,7 +6,7 @@ router.get("/contacts", (req, res) => {
 });
 
 router.get("/contact/:id", (req, res) => {
-    res.send("hit specific contact" + req.params.id)
+    res.send("hit specific contact " + req.params.id)
 });
 
 router.post("/contact", (req, res) => {
@@ -14,11 +14,11 @@ router.post("/contact", (req, res) => {
 });
 
 router.put("/contact/:id", (req, res) => {
-    res.send("hit update contact");
+    res.send("hit update contact " + req.params.id);
 });
 
 router.delete("/contact/:id", (req, res) => {
-    res.send("hit specific contact" + req.params.id)
+    res.send("hit specific contact for deletion " + req.params.id)
 });
 
 module.exports = router;
