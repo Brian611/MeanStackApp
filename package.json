@@ -1,0 +1,32 @@
+{
+  "name": "contactapp-mean-stack",
+  "version": "1.0.0",
+  "description": "MEAN Stack App with NoSQL cloud database",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brian611/MeanStackApp.git"
+  },
+  "author": "Brian Pooe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Brian611/MeanStackApp/issues"
+  },
+  "homepage": "https://github.com/Brian611/MeanStackApp#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.9.3",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
