@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema({
     name: {
@@ -15,14 +16,14 @@ const UserSchema = new Schema({
         required: true
     },
     createdAt: {
-        type: date,
-        default: Date.now()
+        type: Date,
+        default: Date.now
     }
 });
 
 const User = module.exports = mongoose.model("User", UserSchema);
 
-module.exports.getUsers = (callback) => {
+module.exports.getAllUsers = (callback) => {
     query = {};
     User.find(query, callback).sort({ createdAt: -1 });
 };
@@ -32,7 +33,13 @@ module.exports.getUser = (id, callback) => {
 };
 
 module.exports.addUser = (newUser, callback) => {
-    newUser.save(callback);
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) throw err;
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+            newUser.password = hash;
+            newUser.save(callback);
+        });
+    });
 };
 
 module.exports.updateUser = (id, updatedUser, callback) => {
