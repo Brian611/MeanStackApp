@@ -63,10 +63,11 @@ router.post("/user", (req, res) => {
 });
 
 router.post("/authenticate", (req, res) => {
-    username = req.params.username;
-    password = req.params.password;
+    username = req.body.username;
+    password = req.body.password;
 
     User.getUserByUsername(username, (err, user) => {
+        console.log(user);
         if (err) {
             res.status(500);
             res.json({ success: false, msg: err.errmsg });
@@ -88,11 +89,9 @@ router.post("/authenticate", (req, res) => {
                         });
                     }
                 });
-            }else{
-
             }
         }
-    }
-}
-        
+    });
+});
+
 module.exports = router;
