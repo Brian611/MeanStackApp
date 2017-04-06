@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const passport = require("passport");
 const config = require("./config/database");
 
 // Create the database connection 
@@ -41,7 +42,7 @@ const port = process.env.PORT | 3000;
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use
 app.use("/api", api);
 app.use("/api", user);
 

@@ -59,7 +59,6 @@ router.post("/user", (req, res) => {
     });
 });
 
-router.put("/user/:id", (req, res) => {
 
     let updatedUser = req.body;
 
@@ -71,7 +70,6 @@ router.put("/user/:id", (req, res) => {
             res.status(200);
             res.json({ success: false, msg: "User " + user.name + " has been updated successfully!" });
         }
-    });
 });
 
 router.delete("/user/:id", (req, res) => {
