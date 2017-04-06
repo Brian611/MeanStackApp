@@ -67,7 +67,7 @@ router.post("/authenticate", (req, res) => {
     password = req.body.password;
 
     User.getUserByUsername(username, (err, user) => {
-        console.log(user);
+
         if (err) {
             res.status(500);
             res.json({ success: false, msg: err.errmsg });
@@ -76,11 +76,8 @@ router.post("/authenticate", (req, res) => {
                 res.status(404);
                 res.json({ success: false, msg: "User not found!" });
             } else {
-                User.comparePassword(password, user, (err, isMatch) => {
-                    if (!isMatch) {
-                        res.status(400);
-                        res.json({ success: false, msg: "Invalid credentials!" });
-                    } else {
+                User.comparePassword(password, user, (isMatch) => {
+                    if (isMatch) {
                         res.status(200);
                         let sessionUser = {
                             _id: user._id,
@@ -93,9 +90,43 @@ router.post("/authenticate", (req, res) => {
                             token: "JWT " + token,
                             user: sessionUser
                         });
+                    } else {
+                        res.status(400);
+                        res.json({ success: false, msg: "Invalid credentials!" });
                     }
                 });
             }
+        }
+    });
+});
+
+router.put("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+    let updatedUser = req.body;
+
+    User.updateUser(getParamId(req), updatedUser, (err, user) => {
+        if (err) {
+            res.status(500);
+            res.json({ success: false, msg: err.errmsg });
+        }
+        if (user) {
+            res.status(200);
+            res.json({ success: false, msg: "User " + user.name + " has been updated successfully!" });
+        }
+    });
+});
+
+router.delete("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.deleteUser(getParamId(req), (err, user) => {
+        if (err) {
+            res.status(500);
+            res.json({ success: false, msg: err.errmsg });
+        }
+        if (_.isEmpty(user)) {
+            res.status(404);
+            res.json({ success: false, msg: "User not found" });
+        } else {
+            res.status(200);
+            res.json({ success: false, msg: "User " + user.name + " has been updated successfully!" });
         }
     });
 });

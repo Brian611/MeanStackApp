@@ -51,9 +51,7 @@ module.exports.comparePassword = (password, user, callback) => {
     // Load hash from your password DB. 
     bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) throw err;
-        if (isMatch) {
-            callback(null, isMatch);
-        }
+        callback(isMatch);
     });
 };
 
