@@ -82,10 +82,16 @@ router.post("/authenticate", (req, res) => {
                         res.json({ success: false, msg: "Invalid credentials!" });
                     } else {
                         res.status(200);
+                        let sessionUser = {
+                            _id: user._id,
+                            name: user.name,
+                            username: user.username,
+                            createdAt: user.createdAt
+                        }
                         const token = jwt.sign(user, config.secret, { expiresIn: 604800 });
                         res.json({
                             token: "JWT " + token,
-                            user: user
+                            user: sessionUser
                         });
                     }
                 });
