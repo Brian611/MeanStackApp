@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const ContactSchema = new Schema({
     name: {
-
         type: String,
         required: true
     },
@@ -34,7 +33,7 @@ module.exports.addContact = (newContact, callback) => {
 };
 
 module.exports.updateContact = (id, updatedContact, callback) => {
-    Contact.findByIdAndUpdate(id, updatedContact, callback);
+    Contact.findByIdAndUpdate(id, { $set: updatedContact }, { new: true, upsert: true }, callback);
 };
 
 module.exports.deleteContact = (id, callback) => {
