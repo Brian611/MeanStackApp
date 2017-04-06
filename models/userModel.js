@@ -28,8 +28,13 @@ module.exports.getAllUsers = (callback) => {
     User.find(query, callback).sort({ createdAt: -1 });
 };
 
-module.exports.getUser = (id, callback) => {
+module.exports.getUserById = (id, callback) => {
     User.findById(id, callback);
+};
+
+module.exports.getUserByUsername = (username, callback) => {
+    query = { username: username };
+    User.findOne(query, callback);
 };
 
 module.exports.addUser = (newUser, callback) => {
@@ -41,6 +46,18 @@ module.exports.addUser = (newUser, callback) => {
         });
     });
 };
+
+module.exports.comparePassword = (password, user, callback) => {
+
+    // Load hash from your password DB. 
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) throw err;
+        if (isMatch) {
+            callback(null, isMatch);
+        }
+    });
+};
+
 
 module.exports.updateUser = (id, updatedUser, callback) => {
     User.findByIdAndUpdate(id, { $set: updatedUser }, { new: true, upsert: true }, callback);
