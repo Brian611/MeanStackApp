@@ -21,7 +21,7 @@ const Contact = module.exports = mongoose.model("Contact", ContactSchema);
 
 module.exports.getAllContacts = (callback) => {
     query = {}
-    Contact.find(query, callback).sort({ datafield: 1 });
+    Contact.find(query, callback).sort({ createdAt: -1 });
 };
 
 module.exports.getContactById = (id, callback) => {
@@ -37,5 +37,5 @@ module.exports.updateContact = (id, updatedContact, callback) => {
 };
 
 module.exports.deleteContact = (id, callback) => {
-    Contact.findByIdAndRemove(id);
+    Contact.findByIdAndRemove(id, callback);
 }

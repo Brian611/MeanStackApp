@@ -54,13 +54,13 @@ router.post("/contact", (req, res) => {
             res.json({ success: false, msg: err.errmsg });
         } else {
             res.status(201);
-            res.json(contact);
+            res.json({ success: true, msg: "Contact " + contact.name + " was added succefully!" });
         }
     });
 });
 
 router.put("/contact/:id", (req, res) => {
-    
+
     let updatedContact = req.body;
 
     Contact.updateContact(getParamId(req), updatedContact, (err, contact) => {
@@ -69,7 +69,7 @@ router.put("/contact/:id", (req, res) => {
             res.json({ success: false, msg: err.errmsg });
         } else {
             res.status(200);
-            res.json({ success: true, contact: contact });
+            res.json({ success: true, msg: "Contact " + contact.name + " was updated succefully!" });
         }
     });
 });
@@ -81,7 +81,7 @@ router.delete("/contact/:id", (req, res) => {
             res.json({ success: false, msg: err.errmsg });
         } else {
             res.status(200);
-            res.json({ success: true, contact: contact });
+            res.json({ success: true, msg: "Contact " + contact.name + " was deleted succefully!" });
         }
     });
 });
