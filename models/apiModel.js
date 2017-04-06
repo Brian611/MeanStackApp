@@ -3,12 +3,14 @@ const Schema = mongoose.Schema;
 
 const ContactSchema = new Schema({
     name: {
+
         type: String,
         required: true
     },
     cellNo: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     createdAt: {
         type: Date,
@@ -17,3 +19,24 @@ const ContactSchema = new Schema({
 });
 
 const Contact = module.exports = mongoose.model("Contact", ContactSchema);
+
+module.exports.getAllContacts = (callback) => {
+    query = {}
+    Contact.find(query, callback);
+};
+
+module.exports.getContactById = (id, callback) => {
+    Contact.findById(id, callback);
+};
+
+module.exports.addContact = (newContact, callback) => {
+    newContact.save(callback);
+};
+
+module.exports.updateContact = (id, updatedContact, callback) => {
+    Contact.findByIdAndUpdate(id, updatedContact, callback);
+};
+
+module.exports.deleteContact = (id, callback) => {
+    Contact.findByIdAndRemove(id);
+}
