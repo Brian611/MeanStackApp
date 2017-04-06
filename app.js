@@ -42,13 +42,16 @@ const port = process.env.PORT | 3000;
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+require('./config/passport')(passport); // pass passport for configuration
+
 app.use("/api", api);
 app.use("/api", user);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

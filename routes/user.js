@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
 const _ = require("lodash");
+const passport = require("passport");
 
 function getParamId(req) {
     return req.params.id;
 }
 
-router.get("/users", (req, res) => {
+router.get("/users", passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getAllUsers((err, users) => {
         if (err) {
             res.status(500);
@@ -24,7 +25,7 @@ router.get("/users", (req, res) => {
     });
 });
 
-router.get("/user/:id", (req, res) => {
+router.get("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getUser(getParamId(req), (err, user) => {
         if (err) {
             res.status(500);
@@ -59,7 +60,7 @@ router.post("/user", (req, res) => {
     });
 });
 
-
+router.put("/user", passport.authenticate('jwt', { session: false }), (req, res) => {
     let updatedUser = req.body;
 
     User.updateUser(getParamId(req), updatedUser, (err, user) => {
@@ -70,9 +71,11 @@ router.post("/user", (req, res) => {
             res.status(200);
             res.json({ success: false, msg: "User " + user.name + " has been updated successfully!" });
         }
+    });
+
 });
 
-router.delete("/user/:id", (req, res) => {
+router.delete("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
     User.deleteUser(getParamId(req), (err, user) => {
         if (err) {
             res.status(500);
