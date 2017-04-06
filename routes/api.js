@@ -60,12 +60,8 @@ router.post("/contact", (req, res) => {
 });
 
 router.put("/contact/:id", (req, res) => {
-
-
-    let updatedContact = new Contact({
-        name: req.params.name,
-        cellNo: req.params.cellNo
-    });
+    
+    let updatedContact = req.body;
 
     Contact.updateContact(getParamId(req), updatedContact, (err, contact) => {
         if (err) {
