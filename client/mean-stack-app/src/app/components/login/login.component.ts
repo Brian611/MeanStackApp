@@ -17,23 +17,27 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(5)]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   login() {
-    //username validation
-    if (this.loginForm.controls.username.untouched) {
-      this.flashMessagesService.show("Username is required!", { cssClass: "alert-warning", timeout: 3000 });
-    } else if (this.loginForm.controls.username.invalid) {
-      this.flashMessagesService.show("Username minimium length is 2", { cssClass: "alert-warning", timeout: 3000 });
-    }
 
-    //password validation
-    if (this.loginForm.controls.password.untouched) {
-      this.flashMessagesService.show("password is required!", { cssClass: "alert-warning", timeout: 3000 });
-    } else if (this.loginForm.controls.password.invalid) {
-      this.flashMessagesService.show("password minimium length is 6", { cssClass: "alert-warning", timeout: 3000 });
+    if (this.loginForm.invalid) {
+      //username validation
+      if (this.loginForm.controls.username.untouched) {
+        this.flashMessagesService.show("Username is required!", { cssClass: "alert-warning", timeout: 3000 });
+      } else if (this.loginForm.controls.username.invalid) {
+        this.flashMessagesService.show("Username minimium length is 2", { cssClass: "alert-warning", timeout: 3000 });
+      }
+      //password validation
+      if (this.loginForm.controls.password.untouched) {
+        this.flashMessagesService.show("password is required!", { cssClass: "alert-warning", timeout: 3000 });
+      } else if (this.loginForm.controls.password.invalid) {
+        this.flashMessagesService.show("password minimium length is 6", { cssClass: "alert-warning", timeout: 3000 });
+      }
+    } else {
+      console.log(this.loginForm.value);
     }
   }
 }
