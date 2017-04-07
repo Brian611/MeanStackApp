@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
+import { Router } from '@angular/router'
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -14,7 +15,7 @@ export class AuthenticateService {
   authToken: any;
   authUser: any;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
 
   authenticateUser(user) {
     return this.http.post("http://localhost:3000/api/authenticate", user, { headers: this.headers })
@@ -24,7 +25,7 @@ export class AuthenticateService {
 
   storeTokenAnduser(token, user) {
     localStorage.setItem("id_token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", user);
     this.authToken = token;
     this.authUser = user;
   }
@@ -33,9 +34,11 @@ export class AuthenticateService {
     localStorage.clear();
     this.authToken = null;
     this.authUser = null;
+    this.router.navigate(['home']);
   }
   private handleError(error: Response) {
     let msg = `Error : ${error.json().msg}`
     return Observable.throw(msg);
+
   }
 }

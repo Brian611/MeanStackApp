@@ -43,9 +43,12 @@ export class LoginComponent implements OnInit {
       this.authService.authenticateUser(user)
         .subscribe(data => {
           this.authService.storeTokenAnduser(data.token, JSON.stringify(data.user));
+          console.log(data);
         }, error => {
           this.flashMessagesService.show(error, { cssClass: "alert-warning", timeout: 5000 });
         });
     }
   }
+
+ 
 }
