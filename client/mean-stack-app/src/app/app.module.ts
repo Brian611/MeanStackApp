@@ -13,6 +13,8 @@ import { ContactsComponent } from './components/contacts/contacts.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 
+import { AuthenticateService } from './services/authenticate.service';
+
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -38,7 +40,7 @@ const appRoutes: Routes = [
     HttpModule, FlashMessagesModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [AuthenticateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

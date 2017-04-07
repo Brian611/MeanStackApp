@@ -5,6 +5,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const config = require("./config/database");
+const cors = require("cors");
 
 // Create the database connection 
 mongoose.connect(config.database);
@@ -39,6 +40,7 @@ const user = require("./routes/user");
 const app = express();
 const port = process.env.PORT | 3000;
 
+app.use(cors());
 app.use(express.static(path.resolve(__dirname, "public")));
 app.use(logger("dev"));
 app.use(bodyParser.json());
