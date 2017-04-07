@@ -12,9 +12,13 @@ import { ContactsComponent } from './components/contacts/contacts.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 
-const appRoutes : Routes = [
-{path: '', redirectTo: '/home', pathMatch: 'full'},
-
+const appRoutes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '/home', component: HomeComponent },
+  { path: '/profile', component: ProfileComponent },
+  { path: '/Contacts', component: ContactsComponent },
+  { path: '/Register', component: RegisterComponent },
+  { path: '/Login', component: LoginComponent },
 ]
 
 @NgModule({
