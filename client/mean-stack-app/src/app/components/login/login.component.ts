@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -20,6 +22,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm);
+    this.flashMessagesService.show('We are in the login component!', { cssClass: 'alert-success', timeout: 3000 });
   }
 }
