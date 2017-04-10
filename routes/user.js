@@ -6,7 +6,7 @@ const passport = require("passport");
 const config = require("../config/database");
 const jwt = require('jsonwebtoken');
 
-function getParamId(req) {
+function getParam(req) {
     return req.params.id;
 }
 
@@ -28,7 +28,7 @@ router.get("/users", passport.authenticate('jwt', { session: false }), (req, res
 });
 
 router.get("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-    User.getUserById(getParamId(req), (err, user) => {
+    User.getUserById(getParam(req), (err, user) => {
         if (err) {
             res.status(500);
             res.json({ success: false, msg: err.errmsg });
@@ -37,6 +37,26 @@ router.get("/user/:id", passport.authenticate('jwt', { session: false }), (req, 
                 res.status(404);
                 res.json({ success: false, msg: "User not found!" });
             } else {
+                res.status(200);
+                res.json(user);
+            }
+        }
+    });
+});
+
+router.get("/user/:username", passport.authenticate('jwt', { session: false }), (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+    User.getUserByUsername(username, (err, user) => {
+        if (err) {
+            res.status(500);
+            res.json({ success: false, msg: err.errmsg });
+        } else {
+            if (_.isEmpty(user)) {
+                res.status(404);
+                res.json({ success: false, msg: "Username not found!" });
+            } else {
+                console.log(user);
                 res.status(200);
                 res.json(user);
             }
@@ -103,7 +123,7 @@ router.post("/authenticate", (req, res) => {
 router.put("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
     let updatedUser = req.body;
 
-    User.updateUser(getParamId(req), updatedUser, (err, user) => {
+    User.updateUser(getParam(req), updatedUser, (err, user) => {
         if (err) {
             res.status(500);
             res.json({ success: false, msg: err.errmsg });
@@ -116,7 +136,7 @@ router.put("/user/:id", passport.authenticate('jwt', { session: false }), (req, 
 });
 
 router.delete("/user/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-    User.deleteUser(getParamId(req), (err, user) => {
+    User.deleteUser(getParam(req), (err, user) => {
         if (err) {
             res.status(500);
             res.json({ success: false, msg: err.errmsg });
@@ -130,5 +150,6 @@ router.delete("/user/:id", passport.authenticate('jwt', { session: false }), (re
         }
     });
 });
+
 
 module.exports = router;

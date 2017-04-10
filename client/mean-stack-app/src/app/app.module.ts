@@ -18,7 +18,7 @@ import { AuthenticateService } from './services/authenticate.service';
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent },
   { path: 'contacts', component: ContactsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },

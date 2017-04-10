@@ -23,11 +23,31 @@ export class AuthenticateService {
       .catch(this.handleError);
   }
 
-  storeTokenAnduser(token, user) {
-    localStorage.setItem("id_token", token);
-    localStorage.setItem("user", user);
-    this.authToken = token;
-    this.authUser = user;
+  getUserById(id): Observable<Iuser> {
+    this.getTokenAndUserFromLocalStorage();
+    this.headers.append('Authorization', this.authToken);
+    return this.http.get("http://localhost:3000/api/user/" + id, { headers: this.headers })
+      .map((resp: Response) => <Iuser>resp.json())
+      .catch(this.handleError);
+  }
+  getUserByUsername(username): Observable<Iuser> {
+    this.getTokenAndUserFromLocalStorage();
+    console.log(this.authToken);
+    this.headers.append('Authorization', this.authToken);
+    return this.http.get("http://localhost:3000/api/user/" + username, { headers: this.headers })
+      .map((resp: Response) => <Iuser>resp.json())
+      .do(data => console.log(data))
+      .catch(this.handleError);
+  }
+
+  storeTokenAndUser(token, user) {
+    localStorage.setItem('id_token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getTokenAndUserFromLocalStorage() {
+    this.authToken = localStorage.getItem('id_token');
+    this.authUser = JSON.parse(localStorage.getItem('user'));
   }
 
   logout() {
@@ -36,9 +56,9 @@ export class AuthenticateService {
     this.authUser = null;
     this.router.navigate(['home']);
   }
+
   private handleError(error: Response) {
     let msg = `Error : ${error.json().msg}`
     return Observable.throw(msg);
-
   }
 }

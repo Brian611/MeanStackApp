@@ -3,7 +3,8 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { Iuser } from '../../interfaces/iuser';
-
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,8 +13,9 @@ import { Iuser } from '../../interfaces/iuser';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  user: Observable<Iuser>;
 
-  constructor(private fb: FormBuilder, private flashMessagesService: FlashMessagesService, private authService: AuthenticateService) { }
+  constructor(private fb: FormBuilder, private flashMessagesService: FlashMessagesService, private authService: AuthenticateService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -42,13 +44,17 @@ export class LoginComponent implements OnInit {
       let user = JSON.stringify(this.loginForm.value);
       this.authService.authenticateUser(user)
         .subscribe(data => {
-          this.authService.storeTokenAnduser(data.token, JSON.stringify(data.user));
-          console.log(data);
+          this.authService.storeTokenAndUser(data.token, data.user);
+          this.authService.getUserByUsername(data.user.username)
+            .subscribe(user => {
+              let id = user._id;
+              this.router.navigate(['/profile', id]);
+            }, error => console.log(error));
         }, error => {
           this.flashMessagesService.show(error, { cssClass: "alert-warning", timeout: 5000 });
         });
     }
   }
 
- 
+
 }
